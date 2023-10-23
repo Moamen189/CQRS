@@ -1,5 +1,4 @@
 ﻿using CQRS_Library.CQRS.Commands;
-using CQRS_Library.CQRS.Queries;
 using CQRS_Library.Data;
 using CQRS_Library.Data.Models;
 using MediatR;
@@ -11,17 +10,19 @@ using System.Threading.Tasks;
 
 namespace CQRS_Library.CQRS.Handelrs
 {
-    public class GetItemListHandelar : IRequestHandler<GetAllQueries, List<Items>>
+    public class InsertItemHandelar : IRequestHandler<InsertCommand, Items>
     {
         private readonly AppDbContext appDbContext;
 
-        public GetItemListHandelar(AppDbContext appDbContext)
+        public InsertItemHandelar(AppDbContext appDbContext)
         {
             this.appDbContext = appDbContext;
         }
-        public async Task<List<Items>> Handle(GetAllQueries request, CancellationToken cancellationToken)
+        public async Task<Items> Handle(InsertCommand request, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(appDbContext.Item.ToList());
+            await appDbContext.Item.AddAsync(request.Items);
+            appDbContext.SaveChanges();
+            return await Task.FromResult(request.Items);
         }
     }
 }
