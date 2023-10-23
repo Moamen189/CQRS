@@ -1,5 +1,6 @@
 ﻿using CQRS_Library.Data;
 using CQRS_Library.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,27 +19,44 @@ namespace CQRS_Library.Repos
         }
         public int DeleteItem(int id)
         {
-            throw new NotImplementedException();
+            var item = appDbContext.Item.Where(x => x.Id == id).FirstOrDefault();
+            if(item != null)
+            {
+                appDbContext.Item.Remove(item);
+            }
+            return appDbContext.SaveChanges();
+
         }
 
         public List<Items> GetItems()
         {
-            throw new NotImplementedException();
+            return appDbContext.Item.ToList();
         }
 
-        public Items GetItems(int id)
+        public Items GetItem(int id)
         {
-            throw new NotImplementedException();
+            var item = appDbContext.Item.Where(x => x.Id == id).FirstOrDefault();
+
+            return item ?? new();
         }
 
         public int InsertItem(Items item)
         {
-            throw new NotImplementedException();
+           appDbContext.Item.Add(item);
+
+            return appDbContext.SaveChanges();
         }
 
         public int UpdateItem(Items item)
         {
-            throw new NotImplementedException();
+            try {
+                appDbContext.Item.Attach(item);
+                appDbContext.Entry(item).State = EntityState.Modified;
+                return 1;
+            }catch
+            {
+                return 0;
+            }
         }
     }
 }
