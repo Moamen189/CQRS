@@ -26,7 +26,6 @@ namespace CQRS.Controllers
 
         public async Task<IActionResult> GetItems()
         {
-            //return Ok(iitemRepository.GetItems());
 
             var result = await mediator.Send(new GetAllQueries());
 
@@ -36,10 +35,7 @@ namespace CQRS.Controllers
         [HttpPost]
 
         public async Task<IActionResult> InsertItem(Items item)
-        {
-            //iitemRepository.InsertItem(item);
-
-            //return Ok(item);    
+        { 
 
             var result = await mediator.Send(new InsertCommand(item));
 
