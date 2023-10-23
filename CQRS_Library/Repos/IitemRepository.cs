@@ -10,7 +10,7 @@ namespace CQRS_Library.Repos
     public interface IitemRepository
     {
         public List<Items> GetItems();
-        public Items GetItems(int id);
+        public Items GetItem(int id);
 
         public int InsertItem(Items item);
         public int UpdateItem(Items item);
