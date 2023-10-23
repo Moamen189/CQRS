@@ -3,7 +3,6 @@ using CQRS_Library.Data;
 using CQRS_Library.Repos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
